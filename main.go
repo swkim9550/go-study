@@ -52,7 +52,6 @@ func canIdrink(age int) bool {
 		return false
 	}
 	return true
-
 }
 
 // if -else
@@ -62,9 +61,34 @@ func canIdrinkV2(age int) bool {
 		return false
 	}
 	return true
+}
 
+// switch case
+func caseTest(age int) bool {
+	switch koreanAge := age + 2; koreanAge {
+	case 18:
+		return true
+	}
+	return false
+}
+
+// & 주소값
+// * 실제값
+func pointerTest() {
+	a := 2
+	b := &a
+	*b = 20202020
+	fmt.Println(&a, a)
+}
+
+//배열 사용법 + append
+func sliceTest() {
+	names := []string{"seongwoo1", "seongwoo2", "seongwoo3"}
+	names = append(names, "seongwoo4")
+	fmt.Println(names)
 }
 
 func main() {
-	fmt.Println(canIdrink(18))
+	sliceTest()
+	pointerTest()
 }
