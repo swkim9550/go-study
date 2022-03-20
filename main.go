@@ -88,7 +88,32 @@ func sliceTest() {
 	fmt.Println(names)
 }
 
+func mapTest() {
+	testMap := map[string]string{"name": "seongwoo", "age": "12"}
+	for key, value := range testMap {
+		fmt.Println(key, value)
+	}
+	for _, value := range testMap {
+		fmt.Println(value)
+	}
+}
+
+//struct
+type person struct {
+	name    string
+	age     int
+	favFood []string
+}
+
+func structTest() {
+	favFood := []string{"김치볶음밥", "삼겹살"}
+	seongwoo := person{"seongwoo", 18, favFood}                       //방법1
+	seongwoov2 := person{name: "seongwoo", age: 18, favFood: favFood} //방법2
+
+	fmt.Println(seongwoo.name) //하나씩 빼서 쓸 수 있음음	fmt.Println(seongwoo)
+	fmt.Println(seongwoov2)
+}
+
 func main() {
-	sliceTest()
-	pointerTest()
+	structTest()
 }
