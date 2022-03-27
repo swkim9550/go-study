@@ -2,32 +2,95 @@ package main
 
 import (
 	"fmt"
-	"github.com/serranoarevalo/mydict"
+	"github.com/PuerkitoBio/goquery"
+	"log"
+	"net/http"
+	"strconv"
+	"strings"
 )
 
+type extractedJob struct {
+	id       string
+	title    string
+	location string
+	salary   string
+	summary  string
+}
+
+//var baseURL string = "https://www.stussy.co.kr/collections/tees"
+var baseURL string = "https://kr.indeed.com/jobs?q=elasticsearch&limit=50"
+
 func main() {
-	//dictionary := mydict.Dictionary{"first": "First words"}
-	//fmt.Println(dictionary["first"])
-	//
-	//result, err := dictionary.Search("second")
-	//if err != nil {
-	//	fmt.Println(err)
-	//} else {
-	//	fmt.Println(result)
-	//}
-
-	dictionary := mydict.Dictionary{}
-	word := "hello"
-	definition := "Greeting"
-	err := dictionary.Add(word, definition)
-	if err != nil {
-		fmt.Println(err)
+	var jobs []extractedJob
+	totalPages := getPages()
+	for i := 0; i < totalPages; i++ {
+		extractedJob := getPage(i)
+		jobs = append(jobs, extractedJob...)
 	}
-	hello, _ := dictionary.Search(word)
-	fmt.Println("found", word, "definition:", hello)
 
-	err2 := dictionary.Add(word, definition)
-	if err2 != nil {
-		fmt.Println(err2)
+	fmt.Println(jobs)
+}
+
+func getPage(page int) []extractedJob {
+	var jobs []extractedJob
+	pageURL := baseURL + "&start=" + strconv.Itoa(page*50)
+	fmt.Println("Requesting", pageURL)
+
+	res, err := http.Get(pageURL)
+	checkErr(err)
+	checkCode(res)
+
+	defer res.Body.Close()
+	doc, err := goquery.NewDocumentFromReader(res.Body)
+	searchCards := doc.Find(".tapItem")
+	searchCards.Each(func(i int, card *goquery.Selection) {
+		job := extractJob(card)
+		jobs = append(jobs, job)
+	})
+
+	return jobs
+}
+
+func extractJob(card *goquery.Selection) extractedJob {
+	id, _ := card.Attr("data-jk")
+	title := cleanString(card.Find("h2>span").Text())
+	location := cleanString(card.Find(".companyLocation").Text())
+	salary := cleanString(card.Find(".salaryText").Text())
+	summary := cleanString(card.Find(".summary").Text())
+	return extractedJob{id: id,
+		title:    title,
+		location: location,
+		salary:   salary,
+		summary:  summary}
+}
+
+func cleanString(str string) string {
+	return strings.Join(strings.Fields(strings.TrimSpace(str)), " ")
+}
+
+func getPages() int {
+	pages := 0
+	res, err := http.Get(baseURL)
+	checkErr(err)
+	checkCode(res)
+
+	defer res.Body.Close()
+	doc, err := goquery.NewDocumentFromReader(res.Body)
+	doc.Find(".pagination").Each(func(i int, s *goquery.Selection) {
+		pages = s.Find("a").Length()
+	})
+
+	return pages
+}
+
+func checkErr(err error) {
+	if err != nil {
+		log.Fatalln(err)
+	}
+}
+
+func checkCode(res *http.Response) {
+	if res.StatusCode != 200 {
+		log.Fatalln("Request failed with Status", res.StatusCode)
 	}
 }
