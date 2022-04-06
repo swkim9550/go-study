@@ -10,10 +10,11 @@
 ex) fmt->stringer, Marshal->TextMarshaler
 ex) 인터페이스 작성 예시
 
+```go
 type TextMarshaler interface {
 	MarshalText() (text []byte, err error)
 }
-
+```
 
 ## GC 특징 
 1. 정적 유형과 동적 유형으로 나뉜다.
