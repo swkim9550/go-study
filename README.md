@@ -7,10 +7,13 @@
 4. go lang 에서 Exception 은 없다
 5. java , javascript 의 null 은 go lang 에서는 nil
 6. 인터페이스 사용시 구현만 해주면 자동으로 호출 된다. (Package가 인터페이스에 정의된 메소드를 호출 해준다)
-ex) fmt->stringer, Marshal->TextMarshaler
-ex) 인터페이스 작성 예시
+```go
+//대표적인 
+fmt->stringer, Marshal->TextMarshaler
+```
 
 ```go
+//인터페이스 작성 예시
 type TextMarshaler interface {
 	MarshalText() (text []byte, err error)
 }
