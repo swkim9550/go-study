@@ -23,9 +23,12 @@ type TextMarshaler interface {
 1. 정적 유형과 동적 유형으로 나뉜다.
 2. 실행파일 안에 가비지 컬렉터가 내장
 3. CMS (Concurrent Mark & Sweep) 만을 수행하기에 다소 가벼운 특징 ( Go 1.10 기준) -> 현재 기준으로 조사가 필요하다
-4. 비압축/비세대 원칙 고수
-5. call by value
-6. call by reference ( * & pointer)
+- 참조
+https://medium.com/safetycultureengineering/an-overview-of-memory-management-in-go-9a72ec7c76a8
+
+5. 비압축/비세대 원칙 고수
+6. call by value
+7. call by reference ( * & pointer)
 
 ```go
 //pointer example
@@ -44,10 +47,6 @@ func main() {
   fmt.Println(*p)
 }
 ```
-
-
-- 참조
-https://medium.com/safetycultureengineering/an-overview-of-memory-management-in-go-9a72ec7c76a8
 
 ## channels
 
