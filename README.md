@@ -24,7 +24,26 @@ type TextMarshaler interface {
 2. 실행파일 안에 가비지 컬렉터가 내장
 3. CMS (Concurrent Mark & Sweep) 만을 수행하기에 다소 가벼운 특징 ( Go 1.10 기준) -> 현재 기준으로 조사가 필요하다
 4. 비압축/비세대 원칙 고수
-5. 
+5. call by value
+6. call by reference ( * & pointer)
+
+```go
+//pointer example
+func main() {
+  var a int = 10
+  var p *int
+
+  fmt.Println(a)
+
+  p = &a
+  fmt.Printf("%v\n", &a)
+  fmt.Printf("%v\n", p)
+
+  *p = 20
+  fmt.Println(a)
+  fmt.Println(*p)
+}
+```
 
 
 - 참조
