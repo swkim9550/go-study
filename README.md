@@ -36,7 +36,7 @@ https://medium.com/safetycultureengineering/an-overview-of-memory-management-in-
 
 ## go httpserver
 
-```Multiplexer
+1.Multiplexer
 <img width="673" alt="스크린샷 2022-04-13 오후 2 16 47" src="https://user-images.githubusercontent.com/44044905/163105365-badee2a6-c362-4aa7-b0d1-a78217d6c6be.png">
 
 - 참조
